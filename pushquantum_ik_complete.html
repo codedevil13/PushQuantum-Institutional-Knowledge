@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PushQuantum — Institutional Knowledge Hub</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f7f4; color: #1a1a18; }
+.sidebar { position: fixed; top: 0; left: 0; width: 220px; height: 100vh; background: #fff; border-right: 1px solid #e8e6e0; overflow-y: auto; z-index: 100; padding: 1.5rem 0; }
+.sidebar-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #aaa; padding: 0 1.25rem 0.75rem; }
+.nav-section { margin-bottom: 1.25rem; }
+.nav-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #bbb; padding: 0 1.25rem 0.4rem; margin-top: 0.5rem; }
+.nav-item { display: block; padding: 6px 1.25rem; font-size: 12px; color: #555; cursor: pointer; transition: all .12s; border-left: 2px solid transparent; text-decoration: none; }
+.nav-item:hover { background: #f8f7f4; color: #1a1a18; }
+.nav-item.active { background: #f0ede6; color: #1a1a18; font-weight: 600; border-left-color: #1a1a18; }
+.nav-sub { padding-left: 2rem; font-size: 11px; color: #888; }
+.main { margin-left: 220px; padding: 2rem 2.5rem; max-width: 960px; }
+.page { display: none; }
+.page.active { display: block; }
+h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+h2 { font-size: 17px; font-weight: 700; margin: 1.75rem 0 0.75rem; }
+h3 { font-size: 14px; font-weight: 700; margin: 1.25rem 0 0.5rem; }
+.subtitle { font-size: 13px; color: #888; margin-bottom: 1.75rem; }
+.tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 700; margin-right: 6px; margin-bottom: 4px; }
+.tag-blue { background: #dbeafe; color: #1e40af; }
+.tag-green { background: #dcfce7; color: #166534; }
+.tag-amber { background: #fef3c7; color: #92400e; }
+.tag-purple { background: #ede9fe; color: #5b21b6; }
+.tag-red { background: #fee2e2; color: #991b1b; }
+.tag-teal { background: #ccfbf1; color: #115e59; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-bottom: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.card { background: #fff; border: 1px solid #e8e6e0; border-radius: 12px; padding: 1rem 1.25rem; }
+.card-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+.item { font-size: 13px; color: #555; padding: 6px 0; border-bottom: 1px solid #f0ede6; line-height: 1.5; }
+.item:last-child { border-bottom: none; }
+.item strong { color: #1a1a18; }
+.stat { background: #f8f7f4; border-radius: 8px; padding: 12px; text-align: center; }
+.stat .num { font-size: 24px; font-weight: 700; color: #1a1a18; }
+.stat .lbl { font-size: 11px; color: #888; margin-top: 2px; }
+.alert { border-radius: 0 12px 12px 0; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.alert-red { background: #fff; border-left: 4px solid #ef4444; }
+.alert-amber { background: #fff; border-left: 4px solid #f59e0b; }
+.alert-blue { background: #fff; border-left: 4px solid #3b82f6; }
+.alert-purple { background: #fff; border-left: 4px solid #7c3aed; }
+.alert-green { background: #fff; border-left: 4px solid #22c55e; }
+.alert-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+.alert-red .alert-label { color: #ef4444; }
+.alert-amber .alert-label { color: #f59e0b; }
+.alert-blue .alert-label { color: #3b82f6; }
+.alert-purple .alert-label { color: #7c3aed; }
+.alert-green .alert-label { color: #22c55e; }
+.alert-text { font-size: 13px; line-height: 1.6; }
+.pillar { border-radius: 12px; padding: 1.25rem; margin-bottom: 12px; }
+.pillar-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+.pillar-green { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.pillar-purple { background: #faf5ff; border: 1px solid #ddd6fe; }
+.pillar-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+.pillar-blue .pillar-title { color: #1e40af; }
+.pillar-green .pillar-title { color: #166534; }
+.pillar-purple .pillar-title { color: #5b21b6; }
+.pitem { font-size: 12px; padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.06); line-height: 1.5; }
+.pitem:last-child { border-bottom: none; }
+.pillar-blue .pitem { color: #1d4ed8; }
+.pillar-green .pitem { color: #15803d; }
+.pillar-purple .pitem { color: #6d28d9; }
+.sticky { display: inline-block; background: #fef08a; border-radius: 4px; padding: 7px 10px; margin: 0 6px 8px 0; font-size: 11px; color: #713f12; border-bottom: 2px solid #eab308; vertical-align: top; max-width: 150px; line-height: 1.4; }
+.flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.flow-box { background: #fff; border: 1px solid #e8e6e0; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600; }
+.flow-arrow { color: #bbb; font-size: 14px; }
+.mf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 14px; }
+.mf-box { background: #fff; border: 1px solid #e8e6e0; border-radius: 8px; padding: 10px 12px; text-align: center; }
+.mf-label { font-size: 10px; color: #aaa; margin-bottom: 3px; }
+.mf-title { font-size: 12px; font-weight: 700; }
+.mf-sub { font-size: 11px; color: #777; margin-top: 3px; line-height: 1.4; }
+.phase-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid #e8e6e0; border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; }
+.phase-btn { padding: 10px 6px; background: #fff; border: none; border-right: 1px solid #e8e6e0; cursor: pointer; font-size: 11px; color: #666; transition: all .12s; text-align: center; line-height: 1.4; }
+.phase-btn:last-child { border-right: none; }
+.phase-btn.active { background: #1a1a18; color: #fff; font-weight: 700; }
+.phase-btn .yr { font-size: 10px; display: block; opacity: .7; }
+.phase-panel { display: none; }
+.phase-panel.active { display: block; }
+.timeline { position: relative; padding-left: 20px; }
+.timeline::before { content: ''; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 1px; background: #e8e6e0; }
+.tl-item { position: relative; margin-bottom: 14px; }
+.tl-dot { position: absolute; left: -17px; top: 4px; width: 8px; height: 8px; border-radius: 50%; border: 2px solid #fff; }
+.tl-dot-blue { background: #3b82f6; }
+.tl-dot-green { background: #22c55e; }
+.tl-dot-amber { background: #f59e0b; }
+.tl-year { font-size: 10px; color: #aaa; margin-bottom: 2px; }
+.tl-title { font-size: 13px; font-weight: 700; }
+.tl-sub { font-size: 12px; color: #777; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1rem; }
+th { background: #f8f7f4; padding: 8px 10px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #888; border-bottom: 1px solid #e8e6e0; }
+td { padding: 8px 10px; border-bottom: 1px solid #f0ede6; color: #444; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.template-block { background: #fff; border: 1px solid #e8e6e0; border-radius: 12px; margin-bottom: 1.5rem; overflow: hidden; }
+.template-header { padding: 1rem 1.25rem; border-bottom: 1px solid #f0ede6; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+.template-header:hover { background: #fafaf8; }
+.template-title { font-size: 14px; font-weight: 700; }
+.template-meta { font-size: 11px; color: #aaa; margin-top: 2px; }
+.template-body { padding: 1.25rem; display: none; }
+.template-body.open { display: block; }
+.template-body pre { background: #f8f7f4; border-radius: 8px; padding: 1.25rem; font-size: 11px; line-height: 1.9; overflow-x: auto; white-space: pre-wrap; font-family: 'Courier New', monospace; color: #333; }
+.copy-btn { padding: 5px 12px; background: #1a1a18; color: #fff; border: none; border-radius: 6px; font-size: 11px; cursor: pointer; transition: opacity .12s; }
+.copy-btn:hover { opacity: .8; }
+.chevron { font-size: 12px; color: #aaa; transition: transform .2s; }
+.chevron.open { transform: rotate(180deg); }
+.dept-pill { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 1px solid #e8e6e0; background: #f8f7f4; color: #555; margin: 3px 3px 3px 0; }
+.progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+.progress-bar-wrap { flex: 1; background: #f0ede6; border-radius: 4px; height: 6px; }
+.progress-bar { height: 6px; border-radius: 4px; background: #1a1a18; }
+.check { display: inline-block; width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #e8e6e0; margin-right: 8px; vertical-align: middle; background: #fff; }
+.check.done { background: #1a1a18; border-color: #1a1a18; }
+.divider { border: none; border-top: 1px solid #f0ede6; margin: 1.5rem 0; }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-title">PushQuantum IK Hub</div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Overview</div>
+    <a class="nav-item active" onclick="showPage('home')">Start here</a>
+    <a class="nav-item" onclick="showPage('swot')">SWOT analysis</a>
+    <a class="nav-item" onclick="showPage('vision')">Vision 2030</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Institutional Knowledge</div>
+    <a class="nav-item" onclick="showPage('ik-overview')">IK framework</a>
+    <a class="nav-item nav-sub" onclick="showPage('ik-pillar1')">Onboarding & knowledge</a>
+    <a class="nav-item nav-sub" onclick="showPage('ik-pillar2')">Roles</a>
+    <a class="nav-item nav-sub" onclick="showPage('ik-pillar3')">Alumni & network</a>
+    <a class="nav-item nav-sub" onclick="showPage('ik-journey')">Member journey</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Templates</div>
+    <a class="nav-item" onclick="showPage('templates-overview')">All templates</a>
+    <a class="nav-item nav-sub" onclick="showPage('t1a')">1a — Event briefing</a>
+    <a class="nav-item nav-sub" onclick="showPage('t1b')">1b — Event debriefing</a>
+    <a class="nav-item nav-sub" onclick="showPage('t2')">2 — Roles expert interview</a>
+    <a class="nav-item nav-sub" onclick="showPage('t3')">3 — Offboarding protocol</a>
+    <a class="nav-item nav-sub" onclick="showPage('t4')">4 — Alumni pass-down</a>
+    <a class="nav-item nav-sub" onclick="showPage('t5')">5 — Active member DB</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Strategy</div>
+    <a class="nav-item" onclick="showPage('gaps')">Gaps & opportunities</a>
+    <a class="nav-item" onclick="showPage('partners')">Partners & sponsoring</a>
+    <a class="nav-item" onclick="showPage('cambridge')">Cambridge exchange</a>
+    <a class="nav-item" onclick="showPage('drive')">Drive structure</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <h1>PushQuantum — Institutional Knowledge Hub</h1>
+  <p class="subtitle">Built at the Retreat 2025 — your single source of truth for organizational knowledge</p>
+
+  <div class="alert alert-red">
+    <div class="alert-label">The core problem</div>
+    <div class="alert-text">"All PushQuantum members die and PushQuantum has to be brought back to life." This hub exists to make that impossible. Everything PushQuantum knows — about events, roles, partners, alumni, and strategy — lives here.</div>
+  </div>
+
+  <div class="grid-4">
+    <div class="stat"><div class="num">100+</div><div class="lbl">Active members</div></div>
+    <div class="stat"><div class="num">376</div><div class="lbl">Instagram followers</div></div>
+    <div class="stat"><div class="num">6</div><div class="lbl">Templates ready</div></div>
+    <div class="stat"><div class="num">2030</div><div class="lbl">Vision year</div></div>
+  </div>
+
+  <h2>What is in this hub</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">Institutional Knowledge Framework</div>
+      <div class="item">The 3-pillar system from the retreat whiteboard: Onboarding, Roles, Alumni</div>
+      <div class="item">Member journey from new member to alumni advisor</div>
+      <div class="item">What prevents the resurrection problem</div>
+    </div>
+    <div class="card">
+      <div class="card-title">6 Ready-to-Use Templates</div>
+      <div class="item">Event briefing & debriefing</div>
+      <div class="item">Roles expert interview</div>
+      <div class="item">Offboarding & handover protocol</div>
+      <div class="item">Alumni experience pass-down</div>
+      <div class="item">Active member database</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Strategy & Growth</div>
+      <div class="item">SWOT based on real PushQuantum data</div>
+      <div class="item">Vision 2030 with phase roadmap</div>
+      <div class="item">Partner & sponsoring strategy</div>
+      <div class="item">Cambridge exchange roadmap</div>
+      <div class="item">Google Drive / Notion structure</div>
+    </div>
+  </div>
+
+  <h2>Template progress</h2>
+  <div class="progress-row"><span class="check done"></span><span style="flex:1">1a — Event briefing</span><span class="tag tag-green">Done</span></div>
+  <div class="progress-row"><span class="check done"></span><span style="flex:1">1b — Event debriefing & feedback</span><span class="tag tag-green">Done</span></div>
+  <div class="progress-row"><span class="check done"></span><span style="flex:1">2 — Roles expert interview</span><span class="tag tag-green">Done</span></div>
+  <div class="progress-row"><span class="check done"></span><span style="flex:1">3 — Offboarding & handover protocol</span><span class="tag tag-green">Done</span></div>
+  <div class="progress-row"><span class="check done"></span><span style="flex:1">4 — Alumni experience pass-down</span><span class="tag tag-green">Done</span></div>
+  <div class="progress-row"><span class="check done"></span><span style="flex:1">5 — Active member database</span><span class="tag tag-green">Done</span></div>
+</div>
+
+<!-- SWOT -->
+<div id="swot" class="page">
+  <h1>SWOT Analysis</h1>
+  <p class="subtitle">Based on real PushQuantum data — website, events, team structure</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="pillar pillar-green">
+      <div class="pillar-title">Strengths</div>
+      <div class="pitem">QEL is unique — 6 ECTS, interdisciplinary, no equivalent in DACH</div>
+      <div class="pitem">Hackathon track record: 2 years, 100+ participants, real hardware</div>
+      <div class="pitem">BMBF-funded Quanten(t)räume project — institutional credibility</div>
+      <div class="pitem">Top-tier speakers: Ilyas Khan, Jan Goetz, Prof. Ignacio Cirac, Axel Täubert (Google)</div>
+      <div class="pitem">Strong ecosystem: TUM, LMU, MPQ, MQV, Fraunhofer — Garching location</div>
+      <div class="pitem">Strong alumni culture with co-founder pride</div>
+    </div>
+    <div class="pillar" style="background:#fff5f5;border:1px solid #fecaca;">
+      <div class="pillar-title" style="color:#991b1b;">Weaknesses</div>
+      <div class="pitem" style="color:#b91c1c;">Only 376 Instagram followers for speaker-level events</div>
+      <div class="pitem" style="color:#b91c1c;">No systematic LinkedIn presence visible</div>
+      <div class="pitem" style="color:#b91c1c;">No newsletter or subscriber base</div>
+      <div class="pitem" style="color:#b91c1c;">No travel support for Hackathon — excludes external talent</div>
+      <div class="pitem" style="color:#b91c1c;">No formal annual sponsoring model despite strong partner network</div>
+      <div class="pitem" style="color:#b91c1c;">No alumni program despite long alumni list</div>
+      <div class="pitem" style="color:#b91c1c;">No internship or job board</div>
+    </div>
+    <div class="pillar pillar-blue">
+      <div class="pillar-title">Opportunities</div>
+      <div class="pitem">Quantum boom — massive industry and government investment</div>
+      <div class="pitem">IQM, Quantinuum, Quandela already warm — deepen to annual sponsoring</div>
+      <div class="pitem">QEL can be scaled — more cohorts, more universities, international students</div>
+      <div class="pitem">ETH Zürich exchange already mentioned — formalize and expand</div>
+      <div class="pitem">Alumni in industry as door openers for sponsoring and internships</div>
+      <div class="pitem">MQV and MCQST for institutional introductions to Cambridge, Delft etc.</div>
+    </div>
+    <div class="pillar" style="background:#fffbeb;border:1px solid #fde68a;">
+      <div class="pillar-title" style="color:#92400e;">Risks</div>
+      <div class="pitem" style="color:#b45309;">All key roles voluntary + annual elections — knowledge loss</div>
+      <div class="pitem" style="color:#b45309;">Dependency on BMBF funding without backup financing strategy</div>
+      <div class="pitem" style="color:#b45309;">Member count (100+) not growing visibly</div>
+      <div class="pitem" style="color:#b45309;">Growing IEEE/ACM quantum chapters in Munich as competition</div>
+    </div>
+  </div>
+</div>
+
+<!-- VISION -->
+<div id="vision" class="page">
+  <h1>Vision 2030</h1>
+  <p class="subtitle">What PushQuantum can be in 5 years — and what needs to happen to get there</p>
+
+  <div class="phase-nav">
+    <button class="phase-btn active" onclick="showPhase('p0')">Today<span class="yr">2025</span></button>
+    <button class="phase-btn" onclick="showPhase('p1')">Foundation<span class="yr">2025–26</span></button>
+    <button class="phase-btn" onclick="showPhase('p2')">Scale<span class="yr">2026–27</span></button>
+    <button class="phase-btn" onclick="showPhase('p3')">Platform<span class="yr">2028–29</span></button>
+    <button class="phase-btn" onclick="showPhase('p4')">Vision<span class="yr">2030</span></button>
+  </div>
+
+  <div id="p0" class="phase-panel active">
+    <div class="grid-4">
+      <div class="stat"><div class="num">100+</div><div class="lbl">Members</div></div>
+      <div class="stat"><div class="num">376</div><div class="lbl">IG followers</div></div>
+      <div class="stat"><div class="num">2</div><div class="lbl">Hackathons</div></div>
+      <div class="stat"><div class="num">1</div><div class="lbl">BMBF grant</div></div>
+    </div>
+    <div class="alert alert-blue">
+      <div class="alert-label">Starting position</div>
+      <div class="alert-text">PushQuantum has extraordinary substance — BMBF grant, IQM CEO as keynote, Ignacio Cirac talks, real hardware hackathon. But only 376 Instagram followers. The substance is there. What is missing is reach, systems, and a growth strategy.</div>
+    </div>
+  </div>
+
+  <div id="p1" class="phase-panel">
+    <div class="grid-4">
+      <div class="stat"><div class="num">200</div><div class="lbl">Members (target)</div></div>
+      <div class="stat"><div class="num">2,000</div><div class="lbl">LinkedIn followers</div></div>
+      <div class="stat"><div class="num">3–5</div><div class="lbl">Annual sponsors</div></div>
+      <div class="stat"><div class="num">500+</div><div class="lbl">Newsletter subscribers</div></div>
+    </div>
+    <div class="alert alert-amber">
+      <div class="alert-label">Phase 1 — Lay the foundation</div>
+      <div class="alert-text">Goal is not growth for its own sake — it is professionalization. Every activity gets a system. Partners pay structured annual fees. Content goes out regularly. Members get real career value.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Key actions this phase</div>
+      <div class="item">Activate LinkedIn — post every event, every speaker, minimum 2x per week</div>
+      <div class="item">Create sponsoring deck — 4 packages (500 / 1,500 / 3,000 / 5,000 €), target IQM + Quantinuum first</div>
+      <div class="item">Launch newsletter "PushQuantum Pulse" — monthly, quantum news + events + jobs</div>
+      <div class="item">Launch quantum job board — curated, members only, partner companies</div>
+      <div class="item">Build alumni circle — monthly call, exclusive events, alumni as mentors</div>
+      <div class="item">Close first annual sponsoring deal — minimum 3 companies, 8,000 € from sponsoring</div>
+      <div class="item">Formalize ETH Zürich partnership — joint event or student exchange</div>
+    </div>
+  </div>
+
+  <div id="p2" class="phase-panel">
+    <div class="grid-4">
+      <div class="stat"><div class="num">400</div><div class="lbl">Members</div></div>
+      <div class="stat"><div class="num">5,000</div><div class="lbl">LinkedIn followers</div></div>
+      <div class="stat"><div class="num">3</div><div class="lbl">Partner universities</div></div>
+      <div class="stat"><div class="num">25k€</div><div class="lbl">Annual budget</div></div>
+    </div>
+    <div class="alert alert-blue">
+      <div class="alert-label">Phase 2 — Scale and network</div>
+      <div class="alert-text">PushQuantum stops being a Munich org and becomes a European reference for quantum student education. Events draw participants from across Europe. Partners sponsor the organization as a whole, not just individual events.</div>
+    </div>
+  </div>
+
+  <div id="p3" class="phase-panel">
+    <div class="grid-4">
+      <div class="stat"><div class="num">800+</div><div class="lbl">Members</div></div>
+      <div class="stat"><div class="num">20k+</div><div class="lbl">Online reach</div></div>
+      <div class="stat"><div class="num">10+</div><div class="lbl">Partner companies</div></div>
+      <div class="stat"><div class="num">75k€+</div><div class="lbl">Annual budget</div></div>
+    </div>
+    <div class="alert alert-purple">
+      <div class="alert-label">Phase 3 — Become a platform</div>
+      <div class="alert-text">PushQuantum is no longer just a student club — it is the platform through which quantum talent in Europe is formed, connected, and brought into industry. Every relevant quantum company is an annual partner. The European Quantum Student Summit draws 500+ people from 15 countries.</div>
+    </div>
+  </div>
+
+  <div id="p4" class="phase-panel">
+    <div class="alert alert-green">
+      <div class="alert-label">PushQuantum 2030</div>
+      <div class="alert-text">PushQuantum is the leading quantum talent community in Europe. Anyone pursuing a quantum career in Europe comes through PushQuantum. Every relevant quantum company — from IQM to Quantinuum, from planqc to Airbus Quantum — is an annual partner. QEL alumni hold leadership positions at European quantum startups.</div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="card-title">The 3 decisions that determine everything</div>
+      <div class="item"><strong>1. Institutionalize knowledge transfer</strong> — Every department needs a playbook. When a person leaves, the knowledge stays. Without this, every growth phase collapses.</div>
+      <div class="item"><strong>2. Learn to generate revenue</strong> — Volunteering does not scale to 2030. Build sponsoring now so paid roles are possible in phase 3. This is not a betrayal of the student club — it is professionalization.</div>
+      <div class="item"><strong>3. Think European, act local</strong> — Munich stays home base. But partner orgs in Zürich, Delft, and Vienna need to be built now, not in 3 years. Whoever builds the network first keeps it.</div>
+    </div>
+  </div>
+</div>
+
+<!-- IK OVERVIEW -->
+<div id="ik-overview" class="page">
+  <h1>Institutional Knowledge Framework</h1>
+  <p class="subtitle">Based on the retreat whiteboard — the system that prevents PushQuantum from having to be resurrected</p>
+
+  <div class="alert alert-red">
+    <div class="alert-label">The core problem from the whiteboard</div>
+    <div class="alert-text">"All PushQuantum members die and PushQuantum has to be brought back to life." At annual board elections and with high member turnover, institutional knowledge dies systemically. The solution is not a better board — it is a system that works independently of any individual person.</div>
+  </div>
+
+  <div class="flow">
+    <div class="flow-box">New member</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Onboarding</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Active member</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Lead</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Alumni</div><div class="flow-arrow">→</div>
+    <div class="flow-box">Mentor / Advisor</div>
+  </div>
+
+  <div class="grid-3">
+    <div class="pillar pillar-blue">
+      <div class="pillar-title">Pillar 1 — Onboarding & Knowledge</div>
+      <div style="margin-bottom:8px"><span class="sticky">Overview of activities & goals</span><span class="sticky">How-to document mindset-wise</span></div>
+      <div class="pitem"><strong>Event experience hand-down</strong></div>
+      <div class="pitem"><strong>Notion / Drive repository</strong> along department structure</div>
+      <div class="pitem"><strong>Expert interviews + how-to templates</strong></div>
+    </div>
+    <div class="pillar pillar-green">
+      <div class="pillar-title">Pillar 2 — Roles</div>
+      <div class="pitem"><strong>Members in leadership</strong> mentor less experienced members</div>
+      <div class="pitem">Knowledge transfer via tasks — learning by doing</div>
+      <div class="pitem">Expert interviews and how-to docs as a role obligation</div>
+    </div>
+    <div class="pillar pillar-purple">
+      <div class="pillar-title">Pillar 3 — Alumni & Network</div>
+      <div style="margin-bottom:8px"><span class="sticky">Mentorship</span><span class="sticky">Directory to network</span></div>
+      <div class="pitem"><strong>Active role</strong> for alumni</div>
+      <div class="pitem">Lead ← Alumni connection</div>
+      <div class="pitem">"PQ Marriage" — lifelong community identification</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Output when the system works — the resurrection becomes impossible</div>
+    <div class="item">No event ever needs to be planned from scratch again</div>
+    <div class="item">No sponsor contact is lost when a person changes roles</div>
+    <div class="item">New boards know the mistakes their predecessors made</div>
+    <div class="item">Alumni stay actively involved instead of disappearing</div>
+    <div class="item">PushQuantum survives every individual person who is active in it</div>
+  </div>
+</div>
+
+<!-- IK PILLAR 1 -->
+<div id="ik-pillar1" class="page">
+  <h1>Pillar 1 — Onboarding & Knowledge</h1>
+  <p class="subtitle">The documents and structures that carry knowledge across generations</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="tag tag-blue">Overview document</span> What PushQuantum is</div>
+      <div class="item"><strong>Mission and values</strong> — why does PushQuantum exist</div>
+      <div class="item"><strong>Overview of all departments</strong> with 3-sentence description</div>
+      <div class="item"><strong>Calendar of recurring events</strong></div>
+      <div class="item"><strong>Most important partners</strong> — IQM, MQV, Quanten(t)räume etc.</div>
+      <div class="item"><strong>Where everything lives</strong> — Notion structure, Drive, communication channels</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-blue">How-to mindset document</span> How PushQuantum thinks</div>
+      <div class="item"><strong>"We are a startup, not a club"</strong> — what that means in practice</div>
+      <div class="item"><strong>How decisions are made</strong> — who has what authority</div>
+      <div class="item"><strong>What distinguishes PushQuantum</strong> from other student orgs</div>
+      <div class="item"><strong>Expectations of active members</strong> — commitment, communication, quality</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-teal">Event experience hand-down</span> One doc per event</div>
+      <div class="item"><strong>What worked</strong> — specific, with examples</div>
+      <div class="item"><strong>What we would do differently</strong> next time</div>
+      <div class="item"><strong>Contacts that emerged</strong> with context</div>
+      <div class="item"><strong>Budget and effort</strong> — real numbers for successors</div>
+      <div class="item"><strong>Checklist for the next edition</strong></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-teal">Notion / Drive repository</span> Structure by department</div>
+      <div class="item"><strong>One folder per department</strong> — same structure everywhere</div>
+      <div class="item"><strong>Required content:</strong> overview, projects, contacts, event archive</div>
+      <div class="item"><strong>Handover protocol</strong> — what the new head reads first</div>
+      <div class="item"><strong>Review rhythm:</strong> update once per semester</div>
+    </div>
+  </div>
+</div>
+
+<!-- IK PILLAR 2 -->
+<div id="ik-pillar2" class="page">
+  <h1>Pillar 2 — Roles</h1>
+  <p class="subtitle">How knowledge is transferred through leadership and mentoring</p>
+  <div class="alert alert-amber">
+    <div class="alert-label">Core idea from the whiteboard</div>
+    <div class="alert-text">Members in leadership positions "mentor" less experienced members — via tasks. Whoever holds a leadership role is automatically also a knowledge transmitter. This is not an extra task — it is the main task of leads.</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="tag tag-amber">Role structure</span> Three levels — clearly separated</div>
+      <div class="item"><strong>Member</strong> — active in a department, learning, executing tasks</div>
+      <div class="item"><strong>Lead / Head</strong> — owns a department or project, mentors members</div>
+      <div class="item"><strong>Board</strong> — overall strategic responsibility</div>
+      <div class="item">Progression through: experience + knowledge transfer contribution — not just time served</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-amber">Expert interviews</span> Securing knowledge before it leaves</div>
+      <div class="item"><strong>When:</strong> 4 to 6 weeks before end of term</div>
+      <div class="item"><strong>Format:</strong> 45-min conversation with successor, recorded or minuted</div>
+      <div class="item"><strong>Output:</strong> 1-page summary into the department repository</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-green">How-to templates</span> For recurring tasks</div>
+      <div class="item"><strong>Organizing a hackathon</strong> — from partner outreach to closing ceremony</div>
+      <div class="item"><strong>Inviting a speaker</strong> — email template, briefing, logistics</div>
+      <div class="item"><strong>Running a sponsoring conversation</strong> — preparation, pitch, follow-up</div>
+      <div class="item"><strong>Onboarding a new member</strong> — step by step</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-green">Mentoring via tasks</span> Knowledge through work</div>
+      <div class="item"><strong>Pair-tasking:</strong> every important task done at least once by experienced + new member together</div>
+      <div class="item"><strong>Shadowing:</strong> new members join leads at sponsor meetings, speaker calls</div>
+      <div class="item"><strong>Handover tasks:</strong> departing leads create the tasks for their successors themselves</div>
+    </div>
+  </div>
+</div>
+
+<!-- IK PILLAR 3 -->
+<div id="ik-pillar3" class="page">
+  <h1>Pillar 3 — Alumni & Network</h1>
+  <p class="subtitle">Alumni are not ex-members — they are the network</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="tag tag-purple">Alumni directory</span> Make the network visible</div>
+      <div class="item"><strong>Each alumni entry:</strong> name, current position, expertise, mentoring availability</div>
+      <div class="item"><strong>Searchable by:</strong> company, field, country, cohort year</div>
+      <div class="item"><strong>Maintenance:</strong> annual update email to all alumni</div>
+      <div class="item"><strong>Tool:</strong> Notion database or Airtable — simple, low overhead</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-purple">Mentorship program</span> Structured 1:1 mentoring</div>
+      <div class="item"><strong>Matching:</strong> member states interest area → matched with relevant alumni</div>
+      <div class="item"><strong>Format:</strong> 3 months, 1 call per month, clear agenda</div>
+      <div class="item"><strong>Kick-off:</strong> once per year — "Mentoring Match Event"</div>
+      <div class="item"><strong>What alumni get:</strong> PushQuantum stays relevant in their lives, visibility, appreciation</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-teal">Active role for alumni</span></div>
+      <div class="item"><strong>Guest speaker:</strong> alumni give 1 talk per year at PushQuantum events</div>
+      <div class="item"><strong>Challenge giver:</strong> alumni companies provide hackathon challenges</div>
+      <div class="item"><strong>Door opener:</strong> alumni connect current members to companies for sponsoring and internships</div>
+      <div class="item"><strong>"PQ Marriage"</strong> — the goal: alumni feel lifelong belonging to the community</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="tag tag-teal">Continuity through alumni</span></div>
+      <div class="item"><strong>Strategic advisor role:</strong> 2 to 3 alumni on the advisory board — continuity across board changes</div>
+      <div class="item"><strong>Institutional memory calls:</strong> new board meets old board once per year for lessons learned</div>
+      <div class="item"><strong>Emergency contact list:</strong> in a crisis — who has solved this problem before?</div>
+    </div>
+  </div>
+</div>
+
+<!-- IK JOURNEY -->
+<div id="ik-journey" class="page">
+  <h1>Member Journey</h1>
+  <p class="subtitle">From first application to lifelong alumni advisor</p>
+  <div class="mf-grid">
+    <div class="mf-box"><div class="mf-label">Step 1</div><div class="mf-title">New member</div><div class="mf-sub">Application, onboarding event, read overview doc</div></div>
+    <div class="mf-box"><div class="mf-label">Step 2</div><div class="mf-title">Dept. member</div><div class="mf-sub">Pair-tasking with experienced member, first own tasks</div></div>
+    <div class="mf-box"><div class="mf-label">Step 3</div><div class="mf-title">Experienced member</div><div class="mf-sub">Mentors new members, contributes to how-to docs</div></div>
+    <div class="mf-box"><div class="mf-label">Step 4</div><div class="mf-title">Lead / Head</div><div class="mf-sub">Owns department, expert interview before end of term</div></div>
+    <div class="mf-box"><div class="mf-label">Step 5</div><div class="mf-title">Alumni</div><div class="mf-sub">Directory entry, mentoring offer, active role</div></div>
+    <div class="mf-box"><div class="mf-label">Step 6</div><div class="mf-title">Alumni advisor</div><div class="mf-sub">Strategic advisor, door opener, emergency contact</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Transition protocols — what happens at each step</div>
+      <div class="item"><strong>Member to Lead:</strong> shadowing period (4 weeks) + handover conversation + update dept. doc</div>
+      <div class="item"><strong>Lead to Alumni:</strong> expert interview (45 min) + summary into repository + directory entry</div>
+      <div class="item"><strong>Board election:</strong> new board meets old board — 2h institutional knowledge session</div>
+      <div class="item"><strong>Annual rhythm:</strong> review of all how-to docs once per year — are they still current?</div>
+    </div>
+    <div class="card">
+      <div class="card-title">What this system prevents</div>
+      <div class="item">No event ever needs to be planned from scratch</div>
+      <div class="item">No sponsor contact is lost on personnel change</div>
+      <div class="item">New boards know the mistakes of their predecessors</div>
+      <div class="item">Alumni stay engaged instead of disappearing</div>
+      <div class="item">PushQuantum survives every individual person</div>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPLATES OVERVIEW -->
+<div id="templates-overview" class="page">
+  <h1>Templates</h1>
+  <p class="subtitle">6 templates — all in English, ready to copy into Google Docs or Notion</p>
+  <div class="grid-2">
+    <div class="card" style="cursor:pointer" onclick="showPage('t1a')">
+      <div class="tag tag-blue">Events</div>
+      <div class="card-title">1a — Event Briefing</div>
+      <div class="item">For the next organizer — read before you start planning</div>
+      <div class="item">Covers: standard info, team, timeline, financing, resources, paperwork, contacts, marketing, audience, attachments, advice</div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showPage('t1b')">
+      <div class="tag tag-blue">Events</div>
+      <div class="card-title">1b — Event Debriefing & Feedback</div>
+      <div class="item">Fill in within 1 week after the event</div>
+      <div class="item">Covers: goals vs reality, numbers, budget actuals, what worked, what did not, participant feedback, partner feedback, new contacts, team retrospective, recommendations</div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showPage('t2')">
+      <div class="tag tag-amber">Roles</div>
+      <div class="card-title">2 — Roles Expert Interview</div>
+      <div class="item">Conducted with departing members 4 to 6 weeks before end of term</div>
+      <div class="item">Covers: role description, relevance in 2 and 5 years, undocumented knowledge, key contacts, tools, organizational health, personal reflection</div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showPage('t3')">
+      <div class="tag tag-amber">Offboarding</div>
+      <div class="card-title">3 — Offboarding & Handover Protocol</div>
+      <div class="item">Completed by departing person 4 weeks before end of term</div>
+      <div class="item">Covers: role summary, current project status, future to-dos, key contacts, tools and accounts, documentation, finances, retrospective, sign-off</div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showPage('t4')">
+      <div class="tag tag-purple">Alumni</div>
+      <div class="card-title">4 — Alumni Experience Pass-Down</div>
+      <div class="item">Filled in by every departing member at the end of active time</div>
+      <div class="item">Covers: contact and location, roles at PushQuantum, quantum experience, career path, knowledge pass-down, active alumni role, directory entry</div>
+    </div>
+    <div class="card" style="cursor:pointer" onclick="showPage('t5')">
+      <div class="tag tag-green">Members</div>
+      <div class="card-title">5 — Active Member Database</div>
+      <div class="item">Filled in when a new member joins as active member</div>
+      <div class="item">Covers: personal info, contact, academic background, quantum knowledge level, skills, motivation, department preferences, practical and legal, onboarding checklist</div>
+    </div>
+  </div>
+</div>
+
+<!-- TEMPLATE PAGES — each shows the full markdown text -->
+
+<div id="t1a" class="page">
+  <h1>Template 1a — Event Briefing</h1>
+  <p class="subtitle">For the next organizer — read this before you start planning. Copy the text below into a new Google Doc or Notion page.</p>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="copy-btn" onclick="copyTemplate('tpl1a')">Copy template text</button></div>
+  <pre id="tpl1a"># EVENT BRIEFING TEMPLATE
+### For the next organizer — read this before you start planning
+
+---
+
+## STANDARD INFO
+
+| Field | Details |
+|---|---|
+| **Event Title** | |
+| **Event Type** | [ ] Hackathon [ ] Conference [ ] Speaker Talk [ ] Workshop [ ] Company Visit [ ] Bootcamp [ ] Other: |
+| **Date(s)** | |
+| **Location / Venue** | |
+| **Short Description** | |
+| **Target Audience** | |
+| **Filled in by** | |
+| **Date of this document** | |
+
+---
+
+## TEAM & RESPONSIBILITIES
+
+| Role | Name | Contact | Hours invested |
+|---|---|---|---|
+| Main organizer | | | |
+| Co-organizer(s) | | | |
+| Supporting members | | | |
+| External partners in charge | | | |
+
+Note for next organizer — minimum recommended team size for this event type: ___
+
+---
+
+## TIME SCHEDULE & PLANNING TIMELINE
+
+| Task | Started X weeks before event | Deadline | Done by |
+|---|---|---|---|
+| Venue booking | | | |
+| Partner / sponsor outreach | | | |
+| Speaker / challenge-giver confirmation | | | |
+| Registration opened | | | |
+| Marketing / promotion started | | | |
+| Catering / logistics confirmed | | | |
+| Final participant confirmation | | | |
+| Day-of briefing with team | | | |
+
+What should the next organizer start earlier than you did?
+
+___
+
+---
+
+## FINANCING
+
+| Item | Cost (€) | How it was financed | Notes |
+|---|---|---|---|
+| Venue | | [ ] Sponsoring [ ] TUM [ ] MQV [ ] Budget [ ] Other | |
+| Catering / food & drinks | | | |
+| Travel / accommodation (speakers) | | | |
+| Marketing / print materials | | | |
+| Prizes / goodies | | | |
+| Technology / platform fees | | | |
+| Other: | | | |
+| TOTAL | | | |
+
+Total budget secured: ___€
+Funding sources:
+- Sponsoring: ___€ from ___
+- Grants / institutional: ___€ from ___
+- Participation fees: ___€ (fee per person: ___€)
+- Other: ___
+
+What was hardest to finance?
+
+___
+
+---
+
+## RESOURCES REQUIRED
+
+Space & infrastructure:
+- [ ] Lecture hall / room — capacity needed: ___
+- [ ] Projector / screens
+- [ ] Microphone / audio
+- [ ] Whiteboards / flipcharts
+- [ ] Stable WiFi
+- [ ] Access to quantum hardware / cloud QPU accounts
+- [ ] Lab tour access (contact: ___)
+- [ ] Other: ___
+
+Human resources:
+- [ ] Photographer / videographer
+- [ ] Moderator / MC
+- [ ] Technical support on-site
+- [ ] Registration desk volunteers (min. ___ people)
+
+Digital tools used:
+- Registration: ___
+- Communication with participants: ___
+- Event page / promotion: ___
+
+---
+
+## PAPERWORK & BUREAUCRACY
+
+| Task | Lead person | How long it took | Watch out for |
+|---|---|---|---|
+| Venue booking / room request | | | |
+| TUM / LMU / external venue approval | | | |
+| Data protection (GDPR) for registration | | | |
+| Invoices & reimbursements | | | |
+| Participation fee collection | | | |
+| Partnership / sponsoring agreement | | | |
+| Insurance / liability | | | |
+| Other: | | | |
+
+---
+
+## KEY CONTACTS
+
+| Name | Organization | Role in this event | Email / LinkedIn | Relationship quality |
+|---|---|---|---|---|
+| | | | | [ ] Warm [ ] Neutral [ ] New |
+| | | | | [ ] Warm [ ] Neutral [ ] New |
+| | | | | [ ] Warm [ ] Neutral [ ] New |
+
+Whom to contact first when planning this event again:
+1. ___
+2. ___
+3. ___
+
+---
+
+## MARKETING & PROMOTION
+
+| Channel | Used? | What worked? | What didn't? |
+|---|---|---|---|
+| Instagram | [ ] | | |
+| LinkedIn | [ ] | | |
+| pushquantum.tech | [ ] | | |
+| Partner websites (MQV, TUM, etc.) | [ ] | | |
+| Email newsletter | [ ] | | |
+| Word of mouth / personal outreach | [ ] | | |
+| Other: | [ ] | | |
+
+How early did you start promoting? ___ weeks before the event
+Registration conversion (views vs. sign-ups, if tracked): ___
+
+---
+
+## AUDIENCE
+
+| Metric | Number |
+|---|---|
+| Total registrations | |
+| Total attendees (showed up) | |
+| No-shows | |
+| From TUM | |
+| From LMU | |
+| From other universities | |
+| Industry / non-student | |
+| International participants | |
+
+Background of audience (disciplines, levels, etc.):
+
+___
+
+---
+
+## ATTACHMENTS
+
+- [ ] Event agenda / schedule: (link)
+- [ ] Registration form: (link)
+- [ ] Sponsor agreements: (link)
+- [ ] Budget spreadsheet: (link)
+- [ ] Photo / video material: (link)
+- [ ] Slide decks from speakers: (link)
+- [ ] Participant list (anonymized): (link)
+- [ ] Press coverage / mentions: (link)
+
+---
+
+## FURTHER ADVICE FOR THE NEXT ORGANIZER
+
+What you should definitely keep:
+___
+
+What you should change or improve:
+___
+
+The one thing I wish I had known before starting:
+___
+
+Estimated realistic workload for the main organizer: ___ hours total over ___ weeks
+
+---
+
+Template version 1.0 — PushQuantum Institutional Knowledge | Last updated: ___</pre>
+</div>
+
+<div id="t1b" class="page">
+  <h1>Template 1b — Event Debriefing & Feedback</h1>
+  <p class="subtitle">To be filled in within 1 week after the event — by the main organizer.</p>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="copy-btn" onclick="copyTemplate('tpl1b')">Copy template text</button></div>
+  <pre id="tpl1b"># EVENT DEBRIEFING & FEEDBACK TEMPLATE
+### To be filled in within 1 week after the event — by the main organizer
+
+---
+
+## STANDARD INFO
+
+| Field | Details |
+|---|---|
+| **Event Title** | |
+| **Event Type** | [ ] Hackathon [ ] Conference [ ] Speaker Talk [ ] Workshop [ ] Company Visit [ ] Bootcamp [ ] Other: |
+| **Date(s)** | |
+| **Location / Venue** | |
+| **Filled in by** | |
+| **Date of this document** | |
+
+---
+
+## ORIGINAL GOALS VS. REALITY
+
+| Goal | Achieved? | Notes |
+|---|---|---|
+| | [ ] Yes [ ] Partially [ ] No | |
+| | [ ] Yes [ ] Partially [ ] No | |
+| | [ ] Yes [ ] Partially [ ] No | |
+
+Overall: did this event deliver what you hoped for?
+___
+
+---
+
+## NUMBERS & REACH
+
+| Metric | Planned | Actual |
+|---|---|---|
+| Total registrations | | |
+| Total attendees (showed up) | | |
+| No-show rate | | |
+| TUM participants | | |
+| LMU participants | | |
+| Other universities | | |
+| Industry / non-student | | |
+| International participants | | |
+| Volunteer / helper team size | | |
+
+Audience background summary (disciplines, levels, mix):
+___
+
+---
+
+## BUDGET ACTUALS
+
+| Item | Budgeted (€) | Actual (€) | Difference | Notes |
+|---|---|---|---|---|
+| Venue | | | | |
+| Catering / food & drinks | | | | |
+| Speaker travel / accommodation | | | | |
+| Marketing / print | | | | |
+| Prizes / goodies | | | | |
+| Technology / platform fees | | | | |
+| Other: | | | | |
+| TOTAL | | | | |
+
+Did you stay within budget? [ ] Yes [ ] No — if no, why:
+___
+
+Unexpected costs that came up:
+___
+
+---
+
+## WHAT WORKED WELL
+
+Logistics & organization:
+___
+
+Content & program:
+___
+
+Partners & external collaborators:
+___
+
+Team & internal coordination:
+___
+
+Marketing & promotion:
+___
+
+Anything that exceeded expectations:
+___
+
+---
+
+## WHAT DID NOT WORK
+
+Logistics & organization:
+___
+
+Content & program:
+___
+
+Partners & external collaborators:
+___
+
+Team & internal coordination:
+___
+
+Marketing & promotion:
+___
+
+Anything that failed or had to be improvised on the day:
+___
+
+---
+
+## PARTICIPANT FEEDBACK
+
+How was feedback collected?
+[ ] Feedback form (link: ___ ) [ ] Verbal / informal [ ] Not collected
+
+Overall sentiment:
+[ ] Very positive [ ] Positive [ ] Mixed [ ] Negative
+
+Most common praise:
+___
+
+Most common criticism:
+___
+
+Specific quotes worth keeping (anonymized):
+> ___
+> ___
+
+Net Promoter Score or rating (if collected): ___
+
+---
+
+## PARTNER & SPONSOR FEEDBACK
+
+| Partner / Sponsor | Satisfied? | Want to collaborate again? | Notes |
+|---|---|---|---|
+| | [ ] Yes [ ] Unsure [ ] No | [ ] Yes [ ] Maybe [ ] No | |
+| | [ ] Yes [ ] Unsure [ ] No | [ ] Yes [ ] Maybe [ ] No | |
+
+Follow-up actions needed with partners:
+
+| Partner | Action | Responsible | Deadline |
+|---|---|---|---|
+| | | | |
+
+---
+
+## NEW CONTACTS MADE
+
+| Name | Organization / University | Role | Contact | Why relevant |
+|---|---|---|---|---|
+| | | | | |
+
+---
+
+## TEAM RETROSPECTIVE
+
+What the team found hardest:
+___
+
+What the team is proudest of:
+___
+
+Roles that were missing or understaffed:
+___
+
+Roles that could be reduced next time:
+___
+
+Honest assessment of team size needed:
+Minimum: ___ people | Recommended: ___ people
+
+---
+
+## RECOMMENDATIONS FOR THE NEXT EDITION
+
+Start earlier with:
+___
+
+Stop doing:
+___
+
+Keep exactly as it was:
+___
+
+One structural change that would make the biggest difference:
+___
+
+Realistic total workload for main organizer: ___ hours over ___ weeks
+Recommended timeline: Start planning ___ weeks before the event date
+
+---
+
+## OPEN TO-DOS & HANDOVER ITEMS
+
+| To-do | Responsible department / person | Deadline |
+|---|---|---|
+| | | |
+
+---
+
+## ATTACHMENTS & DOCUMENTATION
+
+- [ ] Feedback form responses: (link)
+- [ ] Final budget spreadsheet: (link)
+- [ ] Photo / video material: (link)
+- [ ] Press mentions or coverage: (link)
+- [ ] Participant list (anonymized): (link)
+- [ ] Partner communication log: (link)
+- [ ] Social media performance stats: (link)
+
+---
+
+Template version 1.0 — PushQuantum Institutional Knowledge | Last updated: ___</pre>
+</div>
+
+<div id="t2" class="page">
+  <h1>Template 2 — Roles Expert Interview</h1>
+  <p class="subtitle">Conducted with departing members, leads and board members — 4 to 6 weeks before end of term.</p>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="copy-btn" onclick="copyTemplate('tpl2')">Copy template text</button></div>
+  <pre id="tpl2"># ROLES — EXPERT INTERVIEW TEMPLATE
+### To be conducted with departing members, leads, and board members
+### 4 to 6 weeks before end of term
+### Goal: identify which roles are still relevant in X years and capture knowledge before it walks out the door
+
+---
+
+## INTERVIEW INFO
+
+| Field | Details |
+|---|---|
+| **Interviewee** | |
+| **Role(s) held at PushQuantum** | |
+| **Duration in role** | |
+| **Interviewer** | |
+| **Date of interview** | |
+| **Format** | [ ] In person [ ] Video call [ ] Written |
+| **Recording / notes** | [ ] Recorded (link: ) [ ] Written notes only |
+
+---
+
+## PART 1 — ROLE DESCRIPTION
+
+How would you describe your role in one sentence to someone who has never heard of PushQuantum?
+___
+
+What were your core responsibilities on a week-to-week basis?
+___
+
+What responsibilities were NOT in your official job description but you ended up owning anyway?
+___
+
+Which other departments or roles did you interact with most?
+
+| Department / Role | Nature of interaction | How often |
+|---|---|---|
+| | | |
+
+What decisions could only you make — and why?
+___
+
+---
+
+## PART 2 — RELEVANCE ASSESSMENT
+
+In your honest opinion, will this role still be needed in 2 years?
+[ ] Yes, exactly as it is [ ] Yes, but it should change [ ] Unsure [ ] No
+
+Why?
+___
+
+In 5 years?
+[ ] Yes, exactly as it is [ ] Yes, but it should change [ ] Unsure [ ] No
+
+Why?
+___
+
+What parts of this role are most critical to PushQuantum's long-term mission?
+___
+
+What parts of this role could be dropped, merged, or automated?
+___
+
+If you were redesigning this role from scratch, what would it look like?
+___
+
+---
+
+## PART 3 — KNOWLEDGE THAT LIVES IN YOUR HEAD
+
+What are the 3 most important things you know about this role that are not documented?
+
+1. ___
+2. ___
+3. ___
+
+What mistakes did you make early on that the next person should avoid?
+___
+
+What took you longest to figure out — and what is the answer?
+___
+
+What would you do in the first 4 weeks if you were starting this role again today?
+___
+
+What does success in this role actually look like, beyond the official goals?
+___
+
+---
+
+## PART 4 — KEY CONTACTS & RELATIONSHIPS
+
+| Name | Organization | Why they matter | How to approach them | Email / LinkedIn |
+|---|---|---|---|---|
+| | | | | |
+
+Which of these relationships took the longest to build and must be maintained carefully?
+___
+
+Is there anyone you would warn the next person about — and why?
+___
+
+Who at PushQuantum (current or alumni) knows the most about this role?
+___
+
+---
+
+## PART 5 — TOOLS, PROCESSES & DOCUMENTATION
+
+| Tool / Platform | Purpose | Access / login held by | Notes |
+|---|---|---|---|
+| | | | |
+
+Which processes do you follow that are not written down anywhere?
+___
+
+What documentation do you wish had existed when you started?
+___
+
+What documentation have you created that the next person must read?
+
+| Document | Location (link) | Why it matters |
+|---|---|---|
+| | | |
+
+---
+
+## PART 6 — ORGANIZATIONAL HEALTH
+
+What is working really well right now at PushQuantum that should be protected?
+___
+
+What is a structural problem that nobody talks about openly?
+___
+
+What is the biggest risk for PushQuantum in the next 12 months?
+___
+
+What is the biggest opportunity that is currently being missed?
+___
+
+What advice would you give to the incoming board or leadership?
+___
+
+---
+
+## PART 7 — PERSONAL REFLECTION
+
+What are you most proud of during your time at PushQuantum?
+___
+
+What do you wish you had done differently?
+___
+
+What did PushQuantum give you — skills, contacts, experiences?
+___
+
+Would you be willing to stay connected as an alumni mentor or advisor?
+[ ] Yes, actively [ ] Yes, occasionally [ ] Not at this time
+
+If yes, in what capacity?
+[ ] Mentoring a specific member [ ] Speaking at an event [ ] Reviewing strategy [ ] Providing industry contacts [ ] Other: ___
+
+---
+
+## INTERVIEWER SUMMARY
+
+Top 3 insights from this interview:
+1. ___
+2. ___
+3. ___
+
+Is this role still relevant as currently defined?
+[ ] Yes [ ] Needs to evolve [ ] Should be merged or dropped
+
+Recommended changes to this role for the next term:
+___
+
+Urgent handover items identified:
+
+| Item | Action needed | Responsible | Deadline |
+|---|---|---|---|
+| | | | |
+
+Should this interview be shared with:
+[ ] Incoming person in this role [ ] Full board [ ] All leads [ ] Stored in repository only
+
+---
+
+Template version 1.0 — PushQuantum Institutional Knowledge | Last updated: ___</pre>
+</div>
+
+<div id="t3" class="page">
+  <h1>Template 3 — Offboarding & Handover Protocol</h1>
+  <p class="subtitle">To be completed by the departing person — ideally 4 weeks before end of term, together with the incoming person.</p>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="copy-btn" onclick="copyTemplate('tpl3')">Copy template text</button></div>
+  <pre id="tpl3"># OFFBOARDING & HANDOVER PROTOCOL
+### To be completed by the departing person
+### Ideally 4 weeks before end of term, together with the incoming person
+### Goal: zero knowledge loss between terms
+
+---
+
+## BASIC INFO
+
+| Field | Details |
+|---|---|
+| **Departing person** | |
+| **Role(s) held** | |
+| **Term / period** | From: — To: |
+| **Incoming person** | |
+| **Handover meeting date(s)** | |
+| **Document completed on** | |
+
+---
+
+## PART 1 — ROLE SUMMARY
+
+What did you do in this role — in your own words?
+___
+
+What was the single most important thing your role contributed to PushQuantum?
+___
+
+What does the incoming person need to understand about this role in the first week?
+___
+
+What does success in this role look like at the end of a full term?
+___
+
+---
+
+## PART 2 — CURRENT STATUS OF ALL PROJECTS & RESPONSIBILITIES
+
+| Project / Responsibility | Current status | Next action needed | Deadline | Handover notes |
+|---|---|---|---|---|
+| | [ ] Active [ ] On hold [ ] Completed | | | |
+| | [ ] Active [ ] On hold [ ] Completed | | | |
+| | [ ] Active [ ] On hold [ ] Completed | | | |
+| | [ ] Active [ ] On hold [ ] Completed | | | |
+
+Are there any projects that are time-sensitive and need immediate attention?
+___
+
+Are there any projects you would recommend dropping entirely?
+___
+
+---
+
+## PART 3 — FUTURE TO-DOS FOR THE INCOMING PERSON
+
+In the first 2 weeks, the incoming person should:
+1. ___
+2. ___
+3. ___
+
+In the first month, the incoming person should:
+1. ___
+2. ___
+3. ___
+
+In the first term, the incoming person should focus on:
+1. ___
+2. ___
+3. ___
+
+What should the incoming person NOT do immediately, even if it seems urgent?
+___
+
+What is the one thing that, if left undone, would cause the most damage?
+___
+
+---
+
+## PART 4 — KEY CONTACTS & RELATIONSHIPS
+
+| Name | Organization | Role / connection | How often to be in contact | Email / LinkedIn | Relationship status | Notes |
+|---|---|---|---|---|---|---|
+| | | | | | [ ] Warm [ ] Neutral [ ] Needs rebuilding | |
+| | | | | | [ ] Warm [ ] Neutral [ ] Needs rebuilding | |
+
+Contacts that need to be introduced to the incoming person:
+
+| Name | Organization | Introduction needed by | Method |
+|---|---|---|---|
+| | | | [ ] Email [ ] Meeting [ ] Event |
+
+---
+
+## PART 5 — TOOLS, ACCOUNTS & ACCESS
+
+| Tool / Platform | Purpose | Access held by | Action needed |
+|---|---|---|---|
+| | | | [ ] Transfer [ ] Share [ ] Create new |
+| | | | [ ] Transfer [ ] Share [ ] Create new |
+| | | | [ ] Transfer [ ] Share [ ] Create new |
+
+Are there any shared passwords or credentials that need to be updated after the handover?
+[ ] Yes — list: ___
+[ ] No
+
+---
+
+## PART 6 — DOCUMENTATION & FILES
+
+| Document / Folder | What it contains | Location (link) | Priority |
+|---|---|---|---|
+| | | | [ ] Must read first [ ] Read in first month [ ] Reference only |
+| | | | [ ] Must read first [ ] Read in first month [ ] Reference only |
+
+Is there any documentation that does not exist yet but urgently should?
+___
+
+Is there anything stored only locally on your device that needs to be uploaded?
+[ ] Yes — what and where: ___
+[ ] No
+
+---
+
+## PART 7 — FINANCES & LEGAL
+
+Are there any open invoices or reimbursements?
+[ ] Yes — details: ___
+[ ] No
+
+Active contracts, agreements or MOUs connected to this role:
+
+| Document | Partner | Expiry / renewal date | Location (link) | Action needed |
+|---|---|---|---|---|
+| | | | | |
+
+Are there any financial commitments made that the incoming person needs to honour?
+___
+
+Has the Legal & Finance department been informed of this handover?
+[ ] Yes [ ] Not yet — deadline to do so: ___
+
+---
+
+## PART 8 — HONEST RETROSPECTIVE
+
+What went well in this role that should be continued?
+___
+
+What did not work and should be changed?
+___
+
+What is a structural issue in PushQuantum that this role kept running into?
+___
+
+What was the hardest part of this role that nobody warned you about?
+___
+
+What would you do differently if you were starting again?
+___
+
+Honest assessment of PushQuantum's current health in the area this role covers:
+[ ] Strong [ ] Stable [ ] Needs attention [ ] At risk
+
+Comments:
+___
+
+---
+
+## PART 9 — HANDOVER SIGN-OFF
+
+Checklist:
+- [ ] All projects documented with current status and next steps
+- [ ] All key contacts listed and introductions made or planned
+- [ ] All tools and accounts transferred or shared
+- [ ] All files and documentation located and linked
+- [ ] All open financial or legal items flagged to Legal & Finance
+- [ ] At least one in-person or video handover meeting completed
+- [ ] Incoming person knows who to ask if they have questions
+
+Departing person: ___ Date: ___
+Incoming person: ___ Date: ___
+Confirmed by board / supervisor: ___ Date: ___
+
+---
+
+## STAYING CONNECTED
+
+Preferred way to be reached after departure:
+Email: ___ LinkedIn: ___ Other: ___
+
+Willing to be listed in the Alumni Directory?
+[ ] Yes [ ] No
+
+Willing to be contacted for advice by the incoming person in the first term?
+[ ] Yes, freely [ ] Yes, for specific questions only [ ] Not at this time
+
+---
+
+Template version 1.0 — PushQuantum Institutional Knowledge | Last updated: ___</pre>
+</div>
+
+<div id="t4" class="page">
+  <h1>Template 4 — Alumni Experience Pass-Down</h1>
+  <p class="subtitle">To be filled in by every departing member at the end of their active time at PushQuantum.</p>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="copy-btn" onclick="copyTemplate('tpl4')">Copy template text</button></div>
+  <pre id="tpl4"># ALUMNI PROFILE & EXPERIENCE PASS-DOWN TEMPLATE
+### To be filled in by every departing member at the end of their active time at PushQuantum
+### Goal: build a living directory of alumni that stays useful for current members, future organizers, and the network
+
+---
+
+## BASIC INFO
+
+| Field | Details |
+|---|---|
+| **Full name** | |
+| **Preferred name** | |
+| **Nationality** | |
+| **Languages spoken** | |
+| **PushQuantum member since** | |
+| **PushQuantum member until** | |
+| **Profile last updated** | |
+
+---
+
+## PART 1 — CONTACT & LOCATION
+
+| Field | Details |
+|---|---|
+| **Current city & country** | |
+| **Current employer / institution** | |
+| **Current role / position** | |
+| **Sector** | [ ] Academia [ ] Industry — startup [ ] Industry — corporate [ ] Public sector [ ] Own venture [ ] Still studying [ ] Other: |
+| **Email (preferred)** | |
+| **LinkedIn** | |
+| **Other contact** | |
+
+Are you open to being contacted by current PushQuantum members?
+[ ] Yes, for anything [ ] Yes, for specific topics only — specify: ___ [ ] Not at this time
+
+---
+
+## PART 2 — ROLES & CONTRIBUTIONS AT PUSHQUANTUM
+
+Roles held:
+
+| Role / Position | Department | Period | Brief description |
+|---|---|---|---|
+| | | | |
+
+Events organized or co-organized:
+
+| Event | Year | Your role | Scale (approx. attendees) |
+|---|---|---|---|
+| | | | |
+
+Projects beyond events:
+
+| Project | Period | Your contribution |
+|---|---|---|
+| | | |
+
+Other contributions (e.g. co-founder, created a tool, wrote documentation, built a partnership):
+___
+
+---
+
+## PART 3 — EXPERIENCE IN QUANTUM
+
+Your quantum background in keywords (3 to 8 tags — be specific):
+e.g. quantum error correction, photonic computing, Qiskit, quantum sensing, quantum finance, QKD, neutral atoms, superconducting qubits, quantum policy
+
+___
+
+What is your current work in quantum?
+___
+
+What quantum topics can you speak to from personal experience?
+___
+
+What quantum topics are you NOT the right person for, even if it might seem like you are?
+___
+
+Companies, research groups or institutions you have worked with in quantum:
+
+| Organization | Type | Nature of work | Period |
+|---|---|---|---|
+| | [ ] Company [ ] Research group [ ] University [ ] Other | | |
+
+---
+
+## PART 4 — WHERE YOU WENT & HOW YOU GOT THERE
+
+What was your background when you joined PushQuantum?
+___
+
+What did PushQuantum contribute to your career or academic path?
+___
+
+What was the most valuable thing PushQuantum gave you?
+[ ] Technical skills [ ] Industry contacts [ ] Entrepreneurial mindset [ ] Quantum knowledge [ ] Soft skills [ ] Confidence [ ] A specific opportunity — describe: ___ [ ] Other: ___
+
+How did you find your current position?
+[ ] Through a PushQuantum contact [ ] Through TUM / LMU network [ ] Through a PushQuantum event [ ] Applied independently [ ] Founded own company [ ] Academic path [ ] Other: ___
+
+Would you be willing to share your career path in more detail with a current member on a similar path?
+[ ] Yes [ ] Yes, for specific profiles only — describe: ___ [ ] Not at this time
+
+---
+
+## PART 5 — KNOWLEDGE PASS-DOWN
+
+What do you know now that you wish someone had told you when you joined PushQuantum?
+___
+
+What advice would you give to a current member who wants to build a career in quantum?
+___
+
+What is one thing about the quantum industry that surprised you once you were in it?
+___
+
+What skills turned out to be more important than you expected?
+___
+
+What would you recommend every PushQuantum member do or learn before graduating?
+___
+
+---
+
+## PART 6 — ACTIVE ALUMNI ROLE
+
+| Involvement type | Interested? | Frequency / conditions |
+|---|---|---|
+| Speak at a PushQuantum event | [ ] Yes [ ] Maybe [ ] No | |
+| Mentor a current member (1:1, 3 months) | [ ] Yes [ ] Maybe [ ] No | |
+| Provide a challenge for the Hackathon | [ ] Yes [ ] Maybe [ ] No | |
+| Connect current members to job / internship opportunities | [ ] Yes [ ] Maybe [ ] No | |
+| Advise on a specific project or strategy | [ ] Yes [ ] Maybe [ ] No | |
+| Be part of the Advisory Board | [ ] Yes [ ] Maybe [ ] No | |
+| Join the Alumni Circle (newsletter + 2x yearly event) | [ ] Yes [ ] Maybe [ ] No | |
+
+Topics or areas where you are most useful to current members:
+___
+
+Types of students you would most like to mentor:
+___
+
+---
+
+## PART 7 — FOR THE DIRECTORY
+
+2-sentence bio for the directory:
+___
+
+Keywords for searchability (role type, quantum field, industry, skills — max 10):
+___
+
+Preferred contact method for directory listing:
+[ ] Email [ ] LinkedIn [ ] Contact via PushQuantum team only
+
+Consent to be listed in the PushQuantum Alumni Directory:
+[ ] Yes, full profile [ ] Yes, name and field only [ ] No
+
+---
+
+Template version 1.0 — PushQuantum Institutional Knowledge | Last updated: ___</pre>
+</div>
+
+<div id="t5" class="page">
+  <h1>Template 5 — Active Member Database</h1>
+  <p class="subtitle">To be filled in when a new member joins PushQuantum as an active member.</p>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="copy-btn" onclick="copyTemplate('tpl5')">Copy template text</button></div>
+  <pre id="tpl5"># ACTIVE MEMBER ONBOARDING & DATABASE TEMPLATE
+### To be filled in when a new member joins PushQuantum as an active member
+### Goal: capture all relevant information at the moment of joining
+
+---
+
+## PART 1 — PERSONAL INFO
+
+| Field | Details |
+|---|---|
+| **Full name** | |
+| **Preferred name** | |
+| **Pronouns** | |
+| **Nationality** | |
+| **Languages spoken** | |
+| **City of residence** | |
+| **Date of joining** | |
+| **Referred by / how did you hear about PushQuantum** | [ ] Friend / current member [ ] Social media [ ] University [ ] Event [ ] Other: |
+
+---
+
+## PART 2 — CONTACT
+
+| Field | Details |
+|---|---|
+| **Email (preferred)** | |
+| **Phone** | |
+| **LinkedIn** | |
+| **Instagram / other** | |
+| **Preferred communication channel** | [ ] Email [ ] WhatsApp [ ] Slack [ ] Other: |
+
+Emergency contact (for overnight events such as Hackathon):
+
+| Field | Details |
+|---|---|
+| **Name** | |
+| **Relationship** | |
+| **Phone** | |
+
+---
+
+## PART 3 — ACADEMIC & PROFESSIONAL BACKGROUND
+
+| Field | Details |
+|---|---|
+| **University / institution** | |
+| **Degree program** | |
+| **Level** | [ ] Bachelor [ ] Master [ ] PhD [ ] Postdoc [ ] Apprenticeship [ ] Other: |
+| **Field of study** | |
+| **Expected graduation year** | |
+| **Prior work experience** | |
+
+Have you studied or worked abroad?
+[ ] Yes — where: ___ [ ] No
+
+Do you have any entrepreneurial experience?
+[ ] Yes — describe briefly: ___ [ ] No
+
+---
+
+## PART 4 — QUANTUM BACKGROUND
+
+How would you describe your current quantum knowledge level?
+[ ] No prior knowledge — completely new to quantum
+[ ] Basic awareness — heard of it but not studied it
+[ ] Foundational — taken a course or read introductory material
+[ ] Intermediate — understand core concepts and have worked with quantum tools
+[ ] Advanced — research or industry experience in quantum
+
+Which quantum topics have you already encountered? (tick all that apply)
+[ ] Quantum computing fundamentals
+[ ] Quantum algorithms (e.g. Shor, Grover)
+[ ] Quantum hardware (superconducting, photonic, trapped ion, neutral atom)
+[ ] Quantum programming (Qiskit, Cirq, PennyLane, Classiq, other: ___ )
+[ ] Quantum error correction
+[ ] Quantum cryptography / QKD
+[ ] Quantum sensing
+[ ] Quantum simulation
+[ ] Quantum machine learning
+[ ] Quantum business / commercialization
+[ ] Quantum policy & ethics
+[ ] Other: ___
+
+What quantum topics are you most curious about?
+___
+
+Have you worked with quantum hardware or cloud quantum platforms before?
+[ ] Yes — which ones: ___ [ ] No
+
+---
+
+## PART 5 — SKILLS & EXPERTISE
+
+Technical skills:
+
+| Skill | Level |
+|---|---|
+| Python | [ ] Beginner [ ] Intermediate [ ] Advanced |
+| Other programming languages | [ ] Beginner [ ] Intermediate [ ] Advanced — which: ___ |
+| Data analysis | [ ] Beginner [ ] Intermediate [ ] Advanced |
+| Web development | [ ] Beginner [ ] Intermediate [ ] Advanced |
+| Graphic design | [ ] Beginner [ ] Intermediate [ ] Advanced |
+| Video / photo editing | [ ] Beginner [ ] Intermediate [ ] Advanced |
+
+Non-technical skills:
+
+| Skill | Level |
+|---|---|
+| Event organization | [ ] No experience [ ] Some [ ] Experienced |
+| Public speaking | [ ] No experience [ ] Some [ ] Experienced |
+| Writing / communications | [ ] No experience [ ] Some [ ] Experienced |
+| Fundraising / sponsoring | [ ] No experience [ ] Some [ ] Experienced |
+| Project management | [ ] No experience [ ] Some [ ] Experienced |
+| Finance / accounting | [ ] No experience [ ] Some [ ] Experienced |
+| Legal / contracts | [ ] No experience [ ] Some [ ] Experienced |
+| Teaching / mentoring | [ ] No experience [ ] Some [ ] Experienced |
+| Research | [ ] No experience [ ] Some [ ] Experienced |
+
+---
+
+## PART 6 — MOTIVATION & GOALS
+
+Why did you join PushQuantum?
+___
+
+What do you want to achieve or learn during your time at PushQuantum?
+___
+
+Where do you see yourself in 3 years — professionally or academically?
+___
+
+Are you interested in a career in quantum?
+[ ] Yes, definitely [ ] Exploring it [ ] Not specifically, but interested in deep tech [ ] Unsure
+
+If yes, which area?
+[ ] Research / academia [ ] Quantum hardware [ ] Quantum software [ ] Quantum applications / consulting [ ] Entrepreneurship / startups [ ] Quantum policy [ ] Other: ___
+
+---
+
+## PART 7 — DEPARTMENT & ROLE PREFERENCES
+
+Which PushQuantum department are you joining?
+[ ] Community [ ] Offerings [ ] Partners [ ] Quanten(t)räume [ ] Quantum Entrepreneurship Laboratory [ ] Marketing [ ] IT Administration [ ] Legal & Finance [ ] ThinkTank [ ] Other: ___
+
+Why this department?
+___
+
+Are you interested in taking on a leadership role in the future?
+[ ] Yes, as soon as possible [ ] Yes, after gaining experience [ ] Maybe [ ] No
+
+How much time can you realistically commit per week?
+[ ] 1 to 2 hours [ ] 3 to 5 hours [ ] 6 to 10 hours [ ] More than 10 hours
+
+Are there any periods when you will be unavailable? (e.g. thesis, semester abroad, exams)
+___
+
+---
+
+## PART 8 — PRACTICAL & LEGAL
+
+Dietary requirements (for events with catering):
+[ ] None [ ] Vegetarian [ ] Vegan [ ] Halal [ ] Kosher [ ] Gluten-free [ ] Other: ___
+
+Accessibility needs:
+[ ] None [ ] Please describe: ___
+
+T-shirt size (for merch and event goodies):
+[ ] XS [ ] S [ ] M [ ] L [ ] XL [ ] XXL
+
+Data protection consent:
+[ ] I agree that my data is stored and used internally by PushQuantum for organizational purposes in accordance with GDPR. My data will not be shared with third parties without my explicit consent.
+
+Photo / video consent:
+[ ] I agree to be photographed or filmed at PushQuantum events for use in internal and external communications.
+[ ] I agree to internal use only.
+[ ] I do not consent.
+
+---
+
+## PART 9 — ONBOARDING CHECKLIST
+
+To be completed by the Community or Offerings department.
+
+| Task | Done | Date | By |
+|---|---|---|---|
+| Welcome email sent | [ ] | | |
+| Added to member communication channel | [ ] | | |
+| Added to internal database / Notion | [ ] | | |
+| Assigned to department | [ ] | | |
+| Introduced to department lead | [ ] | | |
+| Received Overview Document | [ ] | | |
+| Received How-to Mindset Document | [ ] | | |
+| Attended first onboarding event or call | [ ] | | |
+| Pair-tasking partner assigned | [ ] | | |
+| First task assigned | [ ] | | |
+| Added to Alumni pipeline for future offboarding | [ ] | | |
+
+---
+
+## PART 10 — NOTES (internal use only)
+
+First impressions / observations:
+___
+
+Potential for leadership:
+[ ] High [ ] Medium [ ] Early to say
+
+Suggested first tasks or projects:
+___
+
+Any flags or follow-ups needed:
+___
+
+---
+
+Template version 1.0 — PushQuantum Institutional Knowledge | Last updated: ___</pre>
+</div>
+
+<!-- GAPS -->
+<div id="gaps" class="page">
+  <h1>Gaps & Opportunities</h1>
+  <p class="subtitle">The central problem: strong on the inside, invisible on the outside</p>
+  <div class="alert alert-red">
+    <div class="alert-label">Core finding</div>
+    <div class="alert-text">PushQuantum has impressive substance — BMBF grant, IQM CEO as keynote, real hardware hackathon, Ignacio Cirac talk. But 376 Instagram followers and no visible LinkedIn account means: whoever is not already inside PushQuantum barely knows it exists.</div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><div class="tag tag-red">Gap 1</div><div class="card-title">No job or internship board</div><div class="item">You know IQM, Quantinuum, Quandela, Aqarios, kiutra, qssys — but members have to google everything themselves</div><div class="item"><strong>What is missing:</strong> curated quantum job page, exclusive for members, matching with companies</div></div>
+    <div class="card"><div class="tag tag-red">Gap 2</div><div class="card-title">No systematic content output</div><div class="item">55 posts, 376 followers — with Jan Goetz and Ignacio Cirac as speakers, 10x more reach would be possible</div><div class="item"><strong>Quick win:</strong> every event — 1 LinkedIn post, 1 Instagram reel, 1 newsletter paragraph</div></div>
+    <div class="card"><div class="tag tag-amber">Gap 3</div><div class="card-title">Alumni network unused</div><div class="item">Long alumni list with strong co-founder identification — but no active alumni program</div><div class="item"><strong>Idea:</strong> "PushQuantum Alumni Circle" — monthly call, exclusive events</div></div>
+    <div class="card"><div class="tag tag-amber">Gap 4</div><div class="card-title">No public learning resources</div><div class="item">Qiskit Bootcamp, QEL — excellent formats, but closed to members only</div><div class="item"><strong>Missing:</strong> public materials (slides, videos, tutorials) — reach multiplies, visibility explodes</div></div>
+    <div class="card"><div class="tag tag-blue">Gap 5</div><div class="card-title">No formal sponsoring structure</div><div class="item">Partners are won for events, but no annual sponsoring model visible</div><div class="item"><strong>Missing:</strong> sponsoring deck with packages, clear ROI for companies</div></div>
+    <div class="card"><div class="tag tag-blue">Gap 6</div><div class="card-title">International reach untapped</div><div class="item">ETH Zürich exchange mentioned, but no structured exchange program</div><div class="item"><strong>Missing:</strong> partner orgs in Vienna, Zürich, Berlin, Delft — build the network now</div></div>
+  </div>
+</div>
+
+<!-- PARTNERS -->
+<div id="partners" class="page">
+  <h1>Partners & Sponsoring Strategy</h1>
+  <p class="subtitle">You already have the relationships — now systematize them</p>
+  <div class="alert alert-green">
+    <div class="alert-label">Starting position</div>
+    <div class="alert-text">IQM (CEO was keynote), Quantinuum (co-founder Ilyas Khan was speaker), Quandela (2 hackathons), IBM Quantum (Qiskit Bootcamp sponsor), MCQST, MQV, TUM Venture Labs, Fraunhofer IAO, Deutsches Museum. This is an extraordinarily strong network for a student organization.</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Annual sponsoring packages</div>
+      <div class="item"><strong>Bronze (500€):</strong> logo on website + 1 event mention</div>
+      <div class="item"><strong>Silver (1,500€):</strong> + workshop slot + job board listing</div>
+      <div class="item"><strong>Gold (3,000€):</strong> + hackathon challenge partner + 2 recruiting events</div>
+      <div class="item"><strong>Platinum (5,000€+):</strong> + naming rights for event + exclusive talent pool access</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Tier 1 targets — warm contacts</div>
+      <div class="item"><strong>IQM</strong> — keynote speaker, natural Gold/Platinum target</div>
+      <div class="item"><strong>Quantinuum</strong> — Ilyas Khan connection, active education program</div>
+      <div class="item"><strong>Quandela</strong> — 2x hackathon partner, deepening is logical</div>
+      <div class="item"><strong>IBM Quantum</strong> — Qiskit Bootcamp sponsor, Qiskit Advocate program</div>
+      <div class="item"><strong>Munich Quantum Valley</strong> — already supporter, institutional partnership possible</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Tier 2 targets — new outreach</div>
+      <div class="item"><strong>planqc</strong> — Munich quantum startup (neutral atom), no contact visible yet</div>
+      <div class="item"><strong>Q.ANT / Bosch</strong> — quantum sensing, DE-based, fits Fraunhofer connection</div>
+      <div class="item"><strong>Airbus Quantum Team</strong> — Munich presence, QC application research</div>
+      <div class="item"><strong>E.ON / VW</strong> — explicitly mentioned on join page as Munich enterprise adopters</div>
+      <div class="item"><strong>Haiqu, Qoro Quantum</strong> — Hackathon 2025 partners, consolidate relationship</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Internship program</div>
+      <div class="item"><strong>Quantum job board</strong> — curated, members only, quantum-relevant positions only</div>
+      <div class="item"><strong>Speed dating format</strong> — 2x per year: companies meet students in 10-min slots</div>
+      <div class="item"><strong>Mentoring match</strong> — alumni + industry contacts as mentors, 3-month program</div>
+      <div class="item"><strong>Message to companies:</strong> "Access to pre-qualified quantum talent, curated by you"</div>
+    </div>
+  </div>
+</div>
+
+<!-- CAMBRIDGE -->
+<div id="cambridge" class="page">
+  <h1>Cambridge Exchange Roadmap</h1>
+  <p class="subtitle">How to build a student exchange with Cambridge — using the connections you already have</p>
+  <div class="alert alert-purple">
+    <div class="alert-label">Your strongest advantage</div>
+    <div class="alert-text">Ilyas Khan is co-founder of Quantinuum — which emerged from Cambridge Quantum Computing, which he founded with deep Cambridge roots. You have already had him as a speaker. This is not a cold outreach — it is a warm connection to someone who co-founded Cambridge Quantum.</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Contact paths — warmest first</div>
+      <div class="item"><strong>Ilyas Khan (Quantinuum)</strong> — warmest contact. A direct LinkedIn message: "We are planning a Cambridge exchange — could you connect us with someone from the Cambridge quantum community?" One sentence, not a formal application.</div>
+      <div class="item"><strong>Cambridge University Quantum Computing Society</strong> — peer-to-peer is the easiest route. Find their president on LinkedIn or the Cambridge SU website. Students help students faster than professors do.</div>
+      <div class="item"><strong>Cavendish Laboratory researcher</strong> — a junior researcher (Lecturer / Reader level) is often more accessible than a full professor and more interested in student networks.</div>
+      <div class="item"><strong>Munich Quantum Valley</strong> — institutional introduction. MQV has official relationships with British quantum institutions. An MQV endorsement opens doors a student email does not.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Step by step</div>
+      <div class="item"><strong>Step 1 — Now:</strong> document the ETH exchange — format, numbers, outcome. This is your proof of concept.</div>
+      <div class="item"><strong>Step 2 — Week 1:</strong> find Cambridge Quantum Computing Society on LinkedIn / SU website</div>
+      <div class="item"><strong>Step 3 — Week 1–2:</strong> message Ilyas Khan asking for an introduction</div>
+      <div class="item"><strong>Step 4 — Week 2–3:</strong> send first contact email to Cambridge QCS and one Cavendish researcher</div>
+      <div class="item"><strong>Step 5 — Month 2–3:</strong> propose a joint online talk — zero budget, zero logistics</div>
+      <div class="item"><strong>Step 6 — Month 6–12:</strong> plan a physical exchange weekend (3–5 people, funded via DAAD or TUM International Office)</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">First contact email — peer version (Cambridge QCS)</div>
+    <pre style="background:#f8f7f4;padding:1rem;border-radius:8px;font-size:12px;line-height:1.8;font-family:'Courier New',monospace;">Subject: Quantum student exchange — PushQuantum Munich x Cambridge
+
+Hi [Name],
+
+I am [Name] from PushQuantum, a quantum tech student organisation
+based at TUM Munich on the Garching research campus — home to IQM,
+MPQ, and Munich Quantum Valley.
+
+We run an annual quantum hackathon (100+ students, real quantum
+hardware), the Quantum Entrepreneurship Laboratory (a 6-ECTS course
+with industry partners), and we recently launched a student exchange
+with ETH Zürich.
+
+We would love to explore something similar with Cambridge — starting
+small: a joint online talk or speaker swap between our communities.
+
+Would you be open to a 20-minute call to explore this?
+
+Best,
+[Name]
+PushQuantum e.V. | pushquantum.tech</pre>
+  </div>
+</div>
+
+<!-- DRIVE STRUCTURE -->
+<div id="drive" class="page">
+  <h1>Google Drive / Notion Structure</h1>
+  <p class="subtitle">How to transfer this hub into a shared repository accessible to all members via link</p>
+  <div class="alert alert-blue">
+    <div class="alert-label">Recommendation</div>
+    <div class="alert-text">For your use case — templates, alumni directory, event archive, new member onboarding, shared links — Notion is better than Google Drive. It renders Markdown natively, has databases for the alumni directory and member list, and templates are built in (one click creates a new filled copy). Free for small teams. Google Drive works too — use Google Docs and the structure below.</div>
+  </div>
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-title">Folder structure</div>
+    <pre style="background:#f8f7f4;padding:1rem;border-radius:8px;font-size:12px;line-height:1.9;font-family:'Courier New',monospace;">PushQuantum — Institutional Knowledge/
+│
+├── 00_START HERE — Overview & Navigation
+│
+├── 01_Organizational Knowledge/
+│   ├── PushQuantum Overview Document
+│   ├── How-to Mindset Document
+│   └── Department Structure
+│
+├── 02_Templates/
+│   ├── Template 1a — Event Briefing
+│   ├── Template 1b — Event Debriefing & Feedback
+│   ├── Template 2 — Roles Expert Interview
+│   ├── Template 3 — Offboarding & Handover Protocol
+│   ├── Template 4 — Alumni Experience Pass-Down
+│   └── Template 5 — Active Member Database
+│
+├── 03_Events Archive/
+│   ├── Hackathon 2024/
+│   │   ├── Briefing
+│   │   └── Debriefing
+│   ├── Hackathon 2025/
+│   └── Frontier Tech Conference 2025/
+│
+├── 04_Alumni Directory/
+│   └── Alumni — [Name]  (one file per person)
+│
+├── 05_Active Members/
+│   └── Member — [Name]
+│
+└── 06_Offboarding Archive/
+    └── Offboarding — [Name] — [Role] — [Year]</pre>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Access levels</div>
+      <table>
+        <thead><tr><th>Group</th><th>Access</th></tr></thead>
+        <tbody>
+          <tr><td>Board</td><td>Edit — all folders</td></tr>
+          <tr><td>Active members</td><td>Edit — own dept. folder + read templates</td></tr>
+          <tr><td>Alumni</td><td>Comment — alumni directory + events archive</td></tr>
+          <tr><td>External / partners</td><td>No access</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Template rule — most important</div>
+      <div class="item">In Google Drive: write at the top of every template in bold: <strong>DO NOT EDIT THIS FILE — make a copy first</strong></div>
+      <div class="item">Always: File → Make a copy — then fill in the copy</div>
+      <div class="item">In Notion: use the built-in template button — one click creates a new filled copy automatically</div>
+      <div class="item">Review all templates once per semester — are they still current?</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + id + "'")) {
+      n.classList.add('active');
+    }
+  });
+  window.scrollTo(0, 0);
+}
+
+function showPhase(id) {
+  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function copyTemplate(id) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy template text', 2000);
+  });
+}
+</script>
+</body>
+</html>
